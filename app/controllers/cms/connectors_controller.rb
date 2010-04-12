@@ -55,7 +55,7 @@ class Cms::ConnectorsController < Cms::BaseController
 
   private
     def load_page
-      @page = Page.find(params[:page_id])
+      @page = Page.find(params[:page_id]).as_of_draft_version
     end
     def set_toolbar_tab
       @toolbar_tab = :content_library
