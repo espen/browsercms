@@ -67,6 +67,11 @@ class Cms::ContentBlockController < Cms::BaseController
     redirect_to_first params[:_redirect_to], block_path
   end
   
+  def unpublish
+    do_command("unpublished") { @block.unpublish! }
+    redirect_to_first params[:_redirect_to], block_path
+  end
+  
   def revert_to
     do_command("reverted to version #{params[:version]}") do
       revert_block(params[:version])
@@ -261,7 +266,7 @@ class Cms::ContentBlockController < Cms::BaseController
           # Allow
         when "edit", "update"
           raise Cms::Errors::AccessDenied unless current_user.able_to_edit?(@block)
-        when "destroy", "publish", "revert_to"
+        when "destroy", "publish", "unpublish", "revert_to"
           raise Cms::Errors::AccessDenied unless current_user.able_to_publish?(@block)
         else
           raise Cms::Errors::AccessDenied

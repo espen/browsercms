@@ -26,6 +26,7 @@ module Cms::Routes
   def default_routes_for_content_block(content_block)
     member_routes = {}
     member_routes[:publish] = :put if content_block.publishable?
+    member_routes[:unpublish] = :put if content_block.publishable?
     member_routes[:versions] = :get if content_block.versioned?
     member_routes[:usages] = :get if content_block.connectable?    
     {:member => member_routes}

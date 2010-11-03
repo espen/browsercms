@@ -40,6 +40,8 @@
         <% able_to? :publish_content do -%>
           if($(this).hasClass('draft') && publishable) {
             $('#publish_button').removeClass('disabled').attr('href', '/cms/'+collectionName+'/'+id+'/publish?_redirect_to='+location.href)        
+          } else {
+            $('#unpublish_button').removeClass('disabled').attr('href', '/cms/'+collectionName+'/'+id+'/unpublish?_redirect_to='+location.href)
           }
         <% end %>  
       })   
