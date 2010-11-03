@@ -31,7 +31,7 @@ module Cms
               self.class.versioned_class
             end
             def versioned_object_id
-              send("#{versioned_class.name.underscore}_id")
+              read_attribute("#{versioned_class.name.underscore}_id")
             end
             def versioned_object
               send(versioned_class.name.underscore.to_sym)
@@ -79,7 +79,7 @@ module Cms
 
           # Now overwrite all values
           (self.class.versioned_columns - %w(version)).each do |col|
-            attrs[col] = send(col)
+            attrs[col] = read_attribute(col)
           end
 
           attrs[:version_comment] = @version_comment || default_version_comment
@@ -94,7 +94,7 @@ module Cms
           # When there is no draft, we'll just copy the attibutes from this object
           # Otherwise we need to use the draft
           d = new_record? ? self : draft
-          self.class.versioned_columns.inject({}){|attrs, col| attrs[col] = d.send(col); attrs }
+          self.class.versioned_columns.inject({}){|attrs, col| attrs[col] = d.read_attribute(col); attrs }
         end 
 
         def default_version_comment
@@ -207,7 +207,7 @@ module Cms
           obj = self.class.new
 
           (self.class.versioned_columns + [:version, :created_at, :created_by_id, :updated_at, :updated_by_id]).each do |a|
-            obj.send("#{a}=", v.send(a))
+            obj.write_attribute(a, v.read_attribute(a))
           end
           obj.id = id
           obj.lock_version = lock_version
@@ -236,7 +236,7 @@ module Cms
           self.revert_to_version = find_version(version)
           raise "Could not find version #{version}" unless revert_to_version
           (self.class.versioned_columns - ["version"]).each do |a|
-            send("#{a}=", revert_to_version.send(a))
+            write_attribute(a, revert_to_version.read_attribute(a))
           end  
           self.version_comment = "Reverted to version #{version}"
           self            
@@ -261,7 +261,7 @@ module Cms
           last_draft = self.draft
           return true unless last_draft
           (self.class.versioned_columns - %w(version)).each do |col|
-            return true if self.send(col) != last_draft.send(col)
+            return true if self.read_attribute(col) != last_draft.read_attribute(col)
           end
           return false
         end
