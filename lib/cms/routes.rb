@@ -57,6 +57,7 @@ module Cms::Routes
         :archive => :put,
         :hide => :put,
         :publish => :put,
+        :unpublish => :put,
         :versions => :get
       }, :collection => {
         :publish => :put

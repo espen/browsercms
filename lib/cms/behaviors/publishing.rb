@@ -103,7 +103,15 @@ module Cms
               end
               self.published = true
             end
-          end 
+          end
+          
+          def unpublish
+            unpublish!
+            true
+          rescue Exception => e
+            logger.warn("Could not unpublish, #{e.class}: #{e.message}\n#{e.backtrace.join("\n")}")
+            false
+          end
 
           def unpublish!
             if new_record?

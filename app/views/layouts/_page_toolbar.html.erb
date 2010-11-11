@@ -47,11 +47,19 @@
 </div>  
 <div class="buttons">
   
-  <%= link_to "<span>Publish</span>", 
-    @page.live? ? '#' : publish_cms_page_path(@page), 
-    :id => "publish_button",
-    :class => "http_put button#{' disabled' if !current_user.able_to?(:publish_content) || !current_user.able_to_edit?(@page) || @page.version != @page.draft.version || @page.live?} left",
-    :target => "_top" %>
+  <%- if(@page.live?) -%>
+    <%= link_to "<span>Unpublish</span>", 
+      unpublish_cms_page_path(@page), 
+      :id => "unpublish_button",
+      :class => "http_put button#{' disabled' if !current_user.able_to?(:publish_content) || !current_user.able_to_edit?(@page)} left",
+      :target => "_top" %>
+  <%- else -%>
+    <%= link_to "<span>Publish</span>", 
+      publish_cms_page_path(@page), 
+      :id => "publish_button",
+      :class => "http_put button#{' disabled' if !current_user.able_to?(:publish_content) || !current_user.able_to_edit?(@page) || @page.version != @page.draft.version || @page.live?} left",
+      :target => "_top" %>
+  <%- end -%>
     
   <%= link_to "<span>Assign</span>", 
     new_cms_page_task_path(@page), 

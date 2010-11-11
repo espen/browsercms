@@ -59,7 +59,7 @@ class Cms::PagesController < Cms::BaseController
   end
  
   #status actions
-  {:publish => "published", :hide => "hidden", :archive => "archived"}.each do |status, verb|
+  {:publish => "published", :unpublish => "unpublished", :hide => "hidden", :archive => "archived"}.each do |status, verb|
     define_method status do
       if params[:page_ids]
         @pages = params[:page_ids].map { |id| Page.find(id) }

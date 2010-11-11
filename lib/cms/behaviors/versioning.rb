@@ -261,7 +261,7 @@ module Cms
           last_draft = self.draft
           return true unless last_draft
           (self.class.versioned_columns - %w(version)).each do |col|
-            return true if self.read_attribute(col) != last_draft.read_attribute(col)
+            return true if self.send(col) != last_draft.send(col)
           end
           return false
         end
