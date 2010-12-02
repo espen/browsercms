@@ -90,11 +90,19 @@ class Cms::SectionsController < Cms::BaseController
 
     def handle_file_browser_upload
       begin
+        abstract_file_block_attributes = {
+          :name => params[:NewFile].original_filename,
+          :attachment_section_id => @section.id,
+          :attachment_file => params[:NewFile],
+          :attachment_file_path => "#{@section.path}#{Time.now.strftime("%m/%d/%Y/")}#{Time.now.strftime("%I/%M/%S")}.#{params[:NewFile].original_filename}"
+        }
         case params[:Type].downcase
         when "file"
-          FileBlock.create!(:section => @section, :file => params[:NewFile])
+          file = FileBlock.create!(abstract_file_block_attributes)
+          file.publish!
         when "image" 
-          ImageBlock.create!(:section => @section, :file => params[:NewFile])
+          image = ImageBlock.create!(abstract_file_block_attributes)
+          image.publish!
         end
         result = "0"
       rescue Exception => e
