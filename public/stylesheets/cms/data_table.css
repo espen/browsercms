@@ -86,7 +86,7 @@ border-right: none;
   cursor: pointer;
 }
 
-.data tr.selected {
+.slick-row.selected {
   background-color: #CADCF4;
 }
 

@@ -56,17 +56,64 @@ class ContentType < ActiveRecord::Base
   def model_class
     name.tableize.classify.constantize
   end
+  
+  def status
+    "test"
+  end
+  
+  def first_default_columns_for_index
+    columns = [
+      {:id => "id", :name => "ID", :field => "id", :width => 10, :sortable => true, :filter => :free, :resizeable => false},
+      {:id => "name", :name => "Name", :field => "name", :width => 120, :cssClass => "block-name", :sortable => true, :filter => :free, :resizeable => true}
+    ]
+    
+    columns
+  end
+  
+  def last_default_columns_for_index
+    columns = []
+    
+    columns << {:id => "updated_at", :name => "Updated On", :field => :updated_on_string, :sortable => true, :filter => :free, :resizeable => true} if(model_class.respond_to?(:updated_at))
+    columns << {:name => "Used", :field => "connected_pages.count", :id => "connected_pages_count", :filter => :free, :width => 15 } if(model_class.connectable?)
+    columns << {:name => "Status", :field => "status", :id => "status", :filter => :select, :width => 20 } if(model_class.publishable?)
+    
+    columns
+  end
 
   # Allows models to show additional columns when being shown in a list.
   def columns_for_index
-    if model_class.respond_to?(:columns_for_index)
-      model_class.columns_for_index.map do |column|
-        column.respond_to?(:humanize) ? {:label => column.humanize, :method => column} : column
+    if(!@columns)
+      columns = []
+    
+      if model_class.respond_to?(:columns_for_index)
+        columns = model_class.columns_for_index
       end
-    else
-      [{:label => "Name", :method => :name, :order => "name"},
-       {:label => "Updated On", :method => :updated_on_string, :order => "updated_at"}]
+    
+      # Add default columns to the beginning of the column list
+      self.first_default_columns_for_index.reverse.each do |column|
+        if(!columns.select { |selected_column| selected_column[:id].to_s == column[:id]}.any?)
+          columns.unshift(column)
+        end
+      end
+    
+      # Add default columns to the end of the column list
+      self.last_default_columns_for_index.each do |column|
+        if(!columns.select { |selected_column| selected_column[:id].to_s == column[:id]}.any?)
+          columns.push(column)
+        end
+      end
+      @columns = columns.flatten
     end
+    @columns
+  end
+  
+  def data_for_block(block)
+    Rails.logger.debug columns_for_index.inspect
+    result = columns_for_index.map do |column|
+      method = column[:field].to_s
+      [method.gsub(".", "_"), method.split(".").inject(block) { |memo, method| memo.send(method) }]
+    end
+    Hash[*result.flatten]
   end
 
   # Used in ERB for pathing

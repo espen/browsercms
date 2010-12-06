@@ -8,6 +8,7 @@ class Cms::ContentBlockController < Cms::BaseController
   
   helper_method :block_form, :new_block_path, :block_path, :blocks_path, :content_type
   helper Cms::RenderingHelper
+  helper Cms::JsonHelper
   # Basic REST Crud Action
   
   def index
@@ -128,12 +129,11 @@ class Cms::ContentBlockController < Cms::BaseController
       if params[:section_id] && params[:section_id] != 'all'
         options[:include] = { :attachment => { :section_node => :section }} 
         options[:conditions] = ["sections.id = ?", params[:section_id]]
-      end
-      options[:page] = params[:page]    
+      end  
       options[:order] = model_class.default_order if model_class.respond_to?(:default_order)
       options[:order] = params[:order] unless params[:order].blank?
       scope = model_class.respond_to?(:list) ? model_class.list : model_class
-      @blocks = scope.searchable? ? scope.search(params[:search]).paginate(options) : scope.paginate(options)
+      @blocks = scope.searchable? ? scope.search(params[:search]).find(:all, options) : scope.find(:all, options)
       check_permissions
     end
   

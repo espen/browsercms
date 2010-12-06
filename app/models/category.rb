@@ -32,9 +32,10 @@ class Category < ActiveRecord::Base
   def category_type_name
     category_type ? category_type.name : nil
   end
+  
   def self.columns_for_index
-    [ {:label => "Name", :method => :name, :order => "categories.name" },
-      {:label => "Type", :method => :category_type_name, :order => "category_types.name" },
-      {:label => "Updated On", :method => :updated_on_string, :order => "categories.updated_at"}  ]
+    [ {:name => "Name", :field => :name, :id => "name", :filter => :free },
+      {:name => "Type", :field => "category_type.name", :id => "category_type_name", :filter => :select },
+      {:name => "Updated On", :field => :updated_on_string, :id => "updated_at", :filter => :free}  ]
   end
 end
