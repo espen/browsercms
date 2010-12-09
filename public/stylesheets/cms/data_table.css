@@ -154,3 +154,7 @@ cursor: default;
   width: 5px; 
   background: url(/images/cms/table/tr.gif) no-repeat 0 0
 }
+
+.slickgrid {
+	height: 100%;
+}
