@@ -25,7 +25,7 @@
 		    end
   		  data.to_json
   		%>
-      var columns = <%= content_type.columns_for_index.map {|c| f = c; f[:field].gsub!(".", "_"); f}.to_json %>;
+      var columns = <%= content_type.columns_for_index.map {|c| f = c; f[:field].to_s.gsub!(".", "_"); f}.to_json %>;
   		
   		var sortcol = "id";
   		var sortdir = -1;
