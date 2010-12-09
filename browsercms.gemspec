@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["BrowserMedia"]
-  s.date = %q{2010-12-03}
+  s.date = %q{2010-12-09}
   s.description = %q{BrowserCMS is a general purpose, open source Web Content Management System (CMS) written in Ruby on Rails. Designed for web developers who want to create great looking websites while using standard Rails tools for customizing it.}
   s.email = %q{github@browsermedia.com}
   s.executables = ["browsercms", "bcms"]
@@ -59,6 +59,7 @@ Gem::Specification.new do |s|
     "app/controllers/tests/pretend_controller.rb",
     "app/helpers/application_helper.rb",
     "app/helpers/cms/application_helper.rb",
+    "app/helpers/cms/content_block_helper.rb",
     "app/helpers/cms/form_builder.rb",
     "app/helpers/cms/form_tag_helper.rb",
     "app/helpers/cms/json_helper.rb",
@@ -1311,6 +1312,7 @@ Gem::Specification.new do |s|
     "public/stylesheets/cms/reset.css",
     "public/stylesheets/cms/selectbox.css",
     "public/stylesheets/cms/sitemap.css",
+    "public/stylesheets/cms/slick.columnpicker.css",
     "public/stylesheets/cms/slick.grid.css",
     "public/stylesheets/cms/slick.pager.css",
     "public/stylesheets/cms/taglist.css",
