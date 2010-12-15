@@ -651,7 +651,6 @@ Gem::Specification.new do |s|
     "doc/guides/html/portlets.html",
     "doc/guides/html/user_guide.html",
     "doc/guides/html/writing_guides.html",
-    "lib/acts_as_list.rb",
     "lib/browsercms.rb",
     "lib/cms/acts/content_block.rb",
     "lib/cms/acts/content_page.rb",
