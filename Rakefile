@@ -21,6 +21,7 @@ begin
     gem.authors = ["BrowserMedia"]
     gem.rubyforge_project = 'browsercms'
     gem.executables = ['browsercms', 'bcms']
+    gem.add_dependency 'acts_as_list'
     gem.files = Dir["rails/*.rb"]
     gem.files += Dir["browsercms.gemspec"]
     gem.files += Dir["doc/app/**/*"]
