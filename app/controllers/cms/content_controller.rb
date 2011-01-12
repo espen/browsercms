@@ -46,7 +46,7 @@ class Cms::ContentController < Cms::ApplicationController
   
   def render_page_with_caching
     render_page
-    response.headers['Cache-Control'] = 'public, max-age=300' if perform_caching
+    cache_page if perform_caching
   end
   
   # ----- Before Filters -------------------------------------------------------
