@@ -13,7 +13,7 @@ module Cms
     end
     
     def container(name)
-      content = instance_variable_get("@content_for_#{name}")
+      content = @template.instance_variable_get("@content_for_#{name}")
       if logged_in? && @page && @mode == "edit" && current_user.able_to_edit?(@page)
         render :partial => 'cms/pages/edit_container', :locals => {:name => name, :content => content}
       else
