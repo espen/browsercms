@@ -9,15 +9,15 @@ module Cms
         render :partial => 'cms/pages/edit_connector',
                :locals => { :connector => connector, :connectable => connectable}
       else
-        render_connectable(connectable)
+        render_connectable(connectable, connector)
       end
     end
 
-    def render_connectable(content_block)
+    def render_connectable(content_block, connector = nil)
       if content_block
         if content_block.class.renderable?
           logger.info "..... Rendering connectable #{content_block.class} ##{content_block.id} #{"v#{content_block.version}" if content_block.respond_to?(:version)}"
-          content_block.perform_render(@controller)
+          content_block.perform_render(@controller, connector)
         else
           logger.warn "Connectable #{content_block.class} ##{content_block.id} is not renderable"
         end

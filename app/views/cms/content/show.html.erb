@@ -13,7 +13,10 @@
 <% end %>
 
 <% @_connectors.each_with_index do |connector, i| %>
+
+  <% @controller.instance_variable_set("@container_#{connector.container}_block_count", 0) if @controller.instance_variable_get("@container_#{connector.container}_block_count").nil? %>
   <% content_for(connector.container.to_sym) do %>
+    <% @controller.instance_variable_set("@container_#{connector.container}_block_count", @controller.instance_variable_get("@container_#{connector.container}_block_count") + 1)  %>
     <%= render_connector_and_connectable(connector, @_connectables[i]) %>
   <% end %>
 <% end %> 

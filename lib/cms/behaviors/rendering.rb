@@ -96,7 +96,7 @@ module Cms
         render if respond_to?(:render)
       end
     
-      def perform_render(controller)
+      def perform_render(controller, connector = nil)
         return "Exception: #{@render_exception}" if @render_exception
 
 
@@ -129,12 +129,14 @@ module Cms
         
         # Copy instance variables from this renderable object to it's view
         action_view.assigns = assigns_for_view
+        
+        block_count_in_connector = (connector)? @controller.instance_variable_get("@container_#{connector.container}_block_count") : 0
           
         if respond_to?(:inline_options) && self.inline_options && self.inline_options.has_key?(:inline)
           options = {:locals => {}}.merge(self.inline_options)
           ActionView::InlineTemplate.new(options[:inline], options[:type]).render(action_view, options[:locals])
         else
-          action_view.render(:file => self.class.template_path)
+          action_view.render(:file => self.class.template_path, :locals => { :counter => block_count_in_connector })
         end
       end
   

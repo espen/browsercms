@@ -15,7 +15,7 @@
           :title => connector.live? ? "This content is published and can be seen by site visitors." : "This content is a draft and won't be seen by site visitors until this page is published." , 
           :style => "text-decoration: none; padding: 0 2px 0 0; background: none; margin: 0; float: none; border: 0; position: absolute; top: -1px; right: 10px;" %>
   </div>
-    <%= render_connectable connectable %>
+    <%= render_connectable connectable, connector %>
 </div>
 <% require_javascript_include ['jquery', 'cms/application'] %>
 <% content_for :html_head do %>
