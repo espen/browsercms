@@ -27,8 +27,9 @@ module Cms
             if versioned?
               { :joins => :versions,
                 :conditions =>
-                "#{connection.quote_table_name(version_table_name)}.#{connection.quote_column_name('version')} > " +
-                "#{connection.quote_table_name(table_name)}.#{connection.quote_column_name('version')}",
+                ["#{connection.quote_table_name(version_table_name)}.#{connection.quote_column_name('version')} > " +
+                "#{connection.quote_table_name(table_name)}.#{connection.quote_column_name('version')} OR " +
+                "#{connection.quote_table_name(table_name)}.#{connection.quote_column_name('published')} = ?", false],
                 :select => "distinct #{connection.quote_table_name(table_name)}.*" }
               else
                 { :conditions => { :published => false } }
