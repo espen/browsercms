@@ -134,10 +134,12 @@ module Cms
           
           # If we are showing a section item, we want to use the path for the first page
           page = section_node.section? ? node.first_page_or_link : node
-          if section_node.section? && page
-            item[:selected] = true if page.hidden? && selected_page == page
-          else
-            item[:selected] = true if selected_page == page
+          if(page.class != Link)
+            if section_node.section? && page
+              item[:selected] = true if page.hidden? && selected_page == page
+            else
+              item[:selected] = true if selected_page == page
+            end
           end
          
           item[:url] = page && page.path || '#'
