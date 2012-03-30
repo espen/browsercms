@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["BrowserMedia"]
-  s.date = %q{2010-12-15}
+  s.date = %q{2012-03-30}
   s.description = %q{BrowserCMS is a general purpose, open source Web Content Management System (CMS) written in Ruby on Rails. Designed for web developers who want to create great looking websites while using standard Rails tools for customizing it.}
   s.email = %q{github@browsermedia.com}
   s.executables = ["browsercms", "bcms"]
@@ -651,6 +651,7 @@ Gem::Specification.new do |s|
     "doc/guides/html/portlets.html",
     "doc/guides/html/user_guide.html",
     "doc/guides/html/writing_guides.html",
+    "lib/acts_as_list.rb",
     "lib/browsercms.rb",
     "lib/cms/acts/content_block.rb",
     "lib/cms/acts/content_page.rb",
@@ -1448,12 +1449,9 @@ Gem::Specification.new do |s|
     s.specification_version = 3
 
     if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0') then
-      s.add_runtime_dependency(%q<acts_as_list>, [">= 0"])
     else
-      s.add_dependency(%q<acts_as_list>, [">= 0"])
     end
   else
-    s.add_dependency(%q<acts_as_list>, [">= 0"])
   end
 end
 
